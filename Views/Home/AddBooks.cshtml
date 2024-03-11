@@ -1,0 +1,29 @@
+﻿@{
+    ViewData["Title"] = "Add Books";
+}
+
+<h1>Add Books</h1>
+
+<form method="post" action="@Url.Action("AddBooks", "Home")" enctype="multipart/form-data">
+    <div>
+        <label for="name">Name:</label>
+        <input type="text" name="Name" required />
+    </div>
+    <div>
+        <label for="author">Author:</label>
+        <input type="text" name="Author" required />
+    </div>
+    <div>
+        <label for="type">Type:</label>
+        <input type="text" name="Type" required />
+    </div>
+    <div>
+        <label for="price">Price:</label>
+        <input type="number" name="Price" required />
+    </div>
+    <div class="form-group">
+        <label for="imageUrl">Image URL:</label>
+        <input type="text" class="form-control" id="imageUrl" name="ImageUrl" placeholder="Enter image URL" required>
+    </div>
+    <button type="submit">Add Book</button>
+</form>

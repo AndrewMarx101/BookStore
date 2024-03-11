@@ -1,0 +1,133 @@
+﻿@{
+    ViewData["Title"] = "Search Page";
+}
+
+@model List<Book>
+
+<style>
+    /* CSS styles for the book boxes and cart */
+    .book-container {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .book-box {
+        position: relative;
+        border: 1px solid #ccc;
+        padding: 10px;
+        width: 300px;
+        height: 700px;
+        margin: 10px;
+        transition: box-shadow 0.3s;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    }
+
+        .book-box:hover {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+    .book-image img {
+        width: 100%;
+        height: auto;
+    }
+
+    .book-details {
+        margin-bottom: 15px;
+    }
+
+    .cart-button {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+        .cart-button img {
+            width: 20px;
+            height: 20px;
+            vertical-align: middle;
+            margin-right: 5px;
+        }
+
+    #cart-box {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        display: flex;
+        align-items: center;
+        background-color: blue;
+        padding: 5px 10px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    #cart-label {
+        font-weight: bold;
+        font-size: 16px;
+        margin-right: 5px;
+        color: white;
+    }
+
+    #cart-count {
+        background-color: blue;
+        color: white;
+        font-size: 16px;
+        padding: 2px 5px;
+        border-radius: 50%;
+        font-weight: bold;
+    }
+</style>
+
+
+<h1>Search</h1>
+
+<form method="get" action="@Url.Action("Search", "Home")">
+    <input type="text" name="searchQuery" placeholder="Search by book name or author" />
+    <button type="submit">Search</button>
+</form>
+
+
+@if (Model == null || Model.Count == 0)
+{
+    <p>No books found.</p>
+}
+else
+{
+    <div class="container">
+        <div class="row book-container">
+            @foreach (var book in Model)
+            {
+                <div class="book-box">
+                    <div class="book-image">
+                        <img src="@book.ImageUrl" alt="Book Image" />
+                    </div>
+                    <h3>@book.Name</h3>
+                    <p>@book.Author</p>
+                    <p>@book.Type</p>
+                    <p>@book.Price</p>
+
+                    <form method="post" action="@Url.Action("AddToCart", "Home")">
+                        <input type="hidden" name="name" value="@book.Name" />
+                        <input type="hidden" name="author" value="@book.Author" />
+                        <input type="hidden" name="type" value="@book.Type" />
+                        <input type="hidden" name="price" value="@book.Price" />
+                        <input type="hidden" name="imageUrl" value="@book.ImageUrl" />
+                        <button type="submit" class="cart-button">
+                            Add to Cart
+                        </button>
+                    </form>
+                </div>
+            }
+        </div>
+    </div>
+}
+
+<div id="cart-box">
+    <a href="/Home/Cart" id="cart-link">
+        <span id="cart-label">Cart:</span>
+        <span id="cart-count">@ViewBag.CartCount</span>
+    </a>
+</div>
+

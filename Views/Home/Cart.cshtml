@@ -1,0 +1,51 @@
+﻿@model List<Book>
+
+<style>
+    ul.cart-list {
+        list-style-type: none;
+        padding: 1px;
+        margin: 0;
+        
+    }
+
+        ul.cart-list li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            transition: box-shadow 0.3s;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+
+            ul.cart-list li img {
+                width: 100px;
+                height: 150px;
+                margin-right: 20px;
+            }
+</style>
+
+<h1>Cart</h1>
+
+@if (Model.Count == 0)
+{
+    <p>Your cart is empty.</p>
+}
+else
+{
+    <ul class="cart-list">
+        @foreach (var item in Model)
+        {
+            <li>
+                <img src="@item.ImageUrl" alt="@item.Name" />
+                <div>
+                    <strong>Name:</strong> @item.Name<br />
+                    <strong>Author:</strong> @item.Author<br />
+                    <strong>Type:</strong> @item.Type<br />
+                    <strong>Price: R</strong> @item.Price<br />
+                </div>
+            </li>
+        }
+    </ul>
+    <div class="total-price">
+        Total Price: R @Model.Sum(item => item.Price)
+    </div>
+}
